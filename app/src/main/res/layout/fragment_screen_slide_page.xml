@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@color/PrimaryColor"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="240dp"
+        android:layout_height="230dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_gravity="center"/>
+
+    <TextView style="?android:textAppearanceMedium"
+        android:paddingTop="10dp"
+        android:paddingBottom="25dp"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.2"
+        android:textColor="@color/white"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="16dp"
+        android:textAllCaps="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Motivation through\nhealthy cooking." />
+
+    <TextView
+        android:paddingBottom="40dp"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.2"
+        android:textColor="@color/white"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="20dp"
+        android:textAllCaps="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Swipe to Continue ->" />
+
+</LinearLayout>

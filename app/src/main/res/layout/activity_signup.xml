@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/PrimaryColor"
+    android:id="@+id/signUpScroll">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:orientation="vertical"
+        android:layout_marginTop="50dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/linearLayout">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/ic_launcher"/>
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_horizontal"
+                android:paddingLeft="12.5dp"
+                android:lineSpacingMultiplier="1.2"
+                android:textColor="@color/white"
+                android:fontFamily="sans-serif-medium"
+                android:textSize="20dp"
+                android:text="The Cook-Off"
+                android:textAllCaps="false"/>
+
+        </LinearLayout>
+
+        <TextView
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:text="Sign up to achieve greatness."
+            android:textColor="#ffffff"
+            android:textAllCaps="false"
+            android:textSize="14dp"
+            android:layout_below="@+id/linearLayout"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:layout_marginTop="50dp"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:hint="EMAIL"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="#000000"
+            android:textSize="16dp"
+            android:background="#ffffff"
+            android:textColorHint="#ff868686"
+            android:id="@+id/emailTextFieldForm"/>
+
+        <EditText
+            android:layout_marginTop="5dp"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:hint="USERNAME"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="#000000"
+            android:textSize="16dp"
+            android:background="#ffffff"
+            android:textColorHint="#ff868686"
+            android:id="@+id/usernameTextFieldForm"/>
+
+        <EditText
+            android:layout_marginTop="5dp"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:hint="PASSWORD"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="#000000"
+            android:textSize="16dp"
+            android:background="#ffffff"
+            android:inputType="textPassword"
+            android:textColorHint="#ff868686"
+            android:id="@+id/passwordTextFieldForm"/>
+
+        <EditText
+            android:layout_marginTop="5dp"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:hint="VERIFY PASSWORD"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="#000000"
+            android:textSize="16dp"
+            android:background="#ffffff"
+            android:inputType="textPassword"
+            android:textColorHint="#ff868686"
+            android:id="@+id/verifyPasswordTextFieldForm"/>
+
+        <Button
+            android:layout_marginTop="35dp"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:text="Sign Up"
+            android:textColor="#ffffff"
+            android:textSize="18dp"
+            android:background="@color/DarkPrimaryColor"
+            android:id="@+id/signUpFormButton"/>
+
+        <Button
+            android:layout_marginTop="5dp"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:text="Cancel"
+            android:textColor="#ffffff"
+            android:textAllCaps="false"
+            android:textSize="16dp"
+            android:background="@android:color/transparent"
+            android:id="@+id/cancelFormButton"/>
+
+    </LinearLayout>
+
+</ScrollView>

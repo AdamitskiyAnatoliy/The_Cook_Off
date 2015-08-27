@@ -1,0 +1,222 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:orientation="horizontal">
+
+       <Button
+           android:id="@+id/feed_button"
+           android:layout_width="match_parent"
+           android:layout_height="35dp"
+           android:layout_weight=".3"
+           android:background="@color/PrimaryColor"
+           android:textColor="#FFFFFF"
+           android:text="FEED"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#FFFFFF" />
+
+        <Button
+            android:id="@+id/leaderboards_button"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_weight=".3"
+            android:background="@color/PrimaryColor"
+            android:textColor="#FFFFFF"
+            android:text="LEADERBOARDS"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#FFFFFF" />
+
+        <Button
+            android:id="@+id/achievements_button"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_weight=".3"
+            android:background="@color/PrimaryColor"
+            android:textColor="#FFFFFF"
+            android:text="ACHIEVEMENTS"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/button_indicator_layout"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:orientation="horizontal"
+        android:paddingBottom="3dp"
+        android:layout_below="@id/button_layout">
+
+        <View
+            android:id="@+id/feed_button_line"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight=".3"
+            android:background="#1e958c" />
+
+        <View
+            android:id="@+id/leaderboards_button_line"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight=".3"
+            android:background="@color/PrimaryColor" />
+
+        <View
+            android:id="@+id/achievements_button_line"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight=".3"
+            android:background="@color/PrimaryColor" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fragment_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/button_indicator_layout"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/dark_background_nav"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/black_semi_transparent"
+        android:visibility="invisible">
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/navigationMenu"
+        android:layout_width="275dp"
+        android:layout_height="match_parent"
+        android:background="@color/PrimaryColor"
+        android:visibility="invisible">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <ImageView
+                android:id="@+id/user_avatar_nav"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@mipmap/ic_launcher"
+                android:layout_centerHorizontal="true"/>
+
+            <TextView
+                android:id="@+id/username_nav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/user_avatar_nav"
+                android:text="Username Goes Here"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true"/>
+
+            <TextView
+                android:id="@+id/user_score_nav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/username_nav"
+                android:text="Score: 89,192"
+                android:textSize="18sp"
+                android:layout_centerHorizontal="true"/>
+
+            <Button
+                android:id="@+id/main_feed_button_nav"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@+id/user_score_nav"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:elevation="10dp"
+                android:text="Main feed"
+                android:background="@color/white"
+                android:textSize="16sp"/>
+
+            <Button
+                android:id="@+id/leaderboards_button_nav"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@+id/main_feed_button_nav"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:elevation="10dp"
+                android:text="Leaderboards"
+                android:background="@color/white"
+                android:textSize="16sp"/>
+
+            <Button
+                android:id="@+id/achievements_button_nav"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@+id/leaderboards_button_nav"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:elevation="10dp"
+                android:text="Achievements"
+                android:background="@color/white"
+                android:textSize="16sp"/>
+
+            <Button
+                android:id="@+id/profile_button_nav"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@+id/achievements_button_nav"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:elevation="10dp"
+                android:text="My Profile"
+                android:background="@color/white"
+                android:textSize="16sp"/>
+
+            <Button
+                android:id="@+id/settings_button_nav"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@+id/profile_button_nav"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:elevation="10dp"
+                android:text="Settings"
+                android:background="@color/white"
+                android:textSize="16sp"/>
+
+            <Button
+                android:id="@+id/logOutNavButton"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_alignParentBottom="true"
+                android:elevation="10dp"
+                android:text="Log Out"
+                android:background="@color/white"
+                android:textSize="16sp"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

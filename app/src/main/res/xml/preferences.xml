@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Notifications">
+        <CheckBoxPreference
+            android:key="notification_preference"
+            android:title="Notifications from application"
+            android:summary="Turn off all notifications." />
+    </PreferenceCategory>
+</PreferenceScreen>
