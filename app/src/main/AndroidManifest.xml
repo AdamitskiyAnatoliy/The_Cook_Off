@@ -50,6 +50,10 @@
             android:name=".ChallengeActivity"
             android:label="@string/title_activity_challenge" >
         </activity>
+        <activity
+            android:name=".ChangeCredentialsActivity"
+            android:label="@string/title_activity_change_credentials" >
+        </activity>
     </application>
 
 </manifest>

@@ -13,6 +13,11 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.parse.LogInCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+
 //import com.parse.LogInCallback;
 //import com.parse.Parse;
 //import com.parse.ParseException;
@@ -36,8 +41,8 @@ public class LogInFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        Parse.initialize(getActivity(), "mgZqRjcCPjoyOfCGv8bmwHENpehZYoSsnvgsMUpe",
-//                "u6aZbalHSzB79uxXR2AsQmYaZYcANA2n0rUiaxAv");
+//        Parse.initialize(getActivity(), "NmlHibFZqo8D6anM56zLid80ZnHOG4R9LDUEVoNZ",
+//                "Z83VxBJolBG1rvWdZpUbNytqGZNAG3kADGrUlTHm");
 
         network = new Network(getActivity());
         username = (EditText) getView().findViewById(R.id.usernameTextField);
@@ -55,30 +60,20 @@ public class LogInFragment extends Fragment {
                     } else if (username.getText().toString().equals("")) {
                         Toast.makeText(getActivity(), "Please Enter Username", Toast.LENGTH_LONG).show();
                     } else {
-                        Intent intent = new Intent(getActivity(), MainActivity.class);
-
-                        SharedPreferences prefs = getActivity().getSharedPreferences(
-                                "com.thecookoff", Context.MODE_PRIVATE);
-
-                        boolean isLoggedIn =  true;
-                        prefs.edit().putBoolean("Logged In",isLoggedIn).commit();
-
-                        startActivity(intent);
-                        getActivity().finish();
-//                        ParseUser.logInInBackground(username.getText().toString(),
-//                                password.getText().toString(), new LogInCallback() {
-//                                    public void done(ParseUser user, ParseException e) {
-//                                        if (user != null) {
-//                                            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-//                                            SharedPreferences.Editor editor = prefs.edit();
-//                                            editor.putBoolean("loggedIn", true);
-//                                            editor.commit();
-//                                            getActivity().finish();
-//                                        } else {
-//                                            Toast.makeText(getActivity(), "Invalid Login, Please Try Again", Toast.LENGTH_LONG).show();
-//                                        }
-//                                    }
-//                                });
+                        ParseUser.logInInBackground(username.getText().toString(),
+                                password.getText().toString(), new LogInCallback() {
+                                    public void done(ParseUser user, ParseException e) {
+                                        if (user != null) {
+                                            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                                            SharedPreferences.Editor editor = prefs.edit();
+                                            editor.putBoolean("loggedIn", true);
+                                            editor.commit();
+                                            getActivity().finish();
+                                        } else {
+                                            Toast.makeText(getActivity(), "Invalid Login, Please Try Again", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
                     }
                 } else {
                     Toast.makeText(getActivity(), "Please Reconnect Network", Toast.LENGTH_LONG).show();
@@ -112,11 +107,11 @@ public class LogInFragment extends Fragment {
         if (resultCode == SignUpActivity.RESULT_OK) {
             String user = data.getStringExtra("username");
             String pass = data.getStringExtra("password");
-//            ParseUser.logInInBackground(user, pass, new LogInCallback() {
-//                public void done(ParseUser user, ParseException e) {
-//
-//                }
-//            });
+            ParseUser.logInInBackground(user, pass, new LogInCallback() {
+                public void done(ParseUser user, ParseException e) {
+
+                }
+            });
             getActivity().finish();
         }
     }

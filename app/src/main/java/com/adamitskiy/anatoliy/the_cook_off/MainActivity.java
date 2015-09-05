@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
+import com.parse.Parse;
+import com.parse.ParseUser;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -34,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     leaderboardsNavButton, achievementsNavButton, myProfileNavButton, settingsNavButton,
     logOutNavButton;
     private View feedIndicatorView, leaderboardsIndicatorView, achievementsIndicatorView;
+    TextView navPoints, navUsername;
     FragmentManager fragmentManager;
     Network network = new Network(this);
     LinearLayout darkNavBackground;
@@ -46,17 +53,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SharedPreferences prefs = this.getSharedPreferences(
-                "com.thecookoff", Context.MODE_PRIVATE);
-
-        if (prefs.getBoolean("Logged In", false) == true) {
-            //User is logged in
-
+        if (network.checkNetwork()) {
+            Parse.initialize(this, "NmlHibFZqo8D6anM56zLid80ZnHOG4R9LDUEVoNZ",
+                    "Z83VxBJolBG1rvWdZpUbNytqGZNAG3kADGrUlTHm");
         } else {
-            Intent intent = new Intent(this, LogInActivity.class);
-            startActivity(intent);
-            finish();
+            simpleSnackBar("Please Reconnect Network");
         }
+
 
         final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
                 R.layout.custom_actionbar_main,
@@ -69,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         actionBar.setCustomView(actionBarLayout);
         actionBar.setElevation(0);
 
+        navUsername = (TextView) findViewById(R.id.username_nav);
+        navPoints = (TextView) findViewById(R.id.user_score_nav);
         mainFeedNavButton = (Button) findViewById(R.id.main_feed_button_nav);
         leaderboardsNavButton = (Button) findViewById(R.id.leaderboards_button_nav);
         achievementsNavButton = (Button) findViewById(R.id.achievements_button_nav);
@@ -173,15 +178,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
             case R.id.logOutNavButton:
-                SharedPreferences prefs = this.getSharedPreferences(
-                        "com.thecookoff", Context.MODE_PRIVATE);
+                if (network.checkNetwork()) {
+                    //stopRepeating();
 
-                boolean isLoggedIn =  false;
-                prefs.edit().putBoolean("Logged In",isLoggedIn).commit();
+                    ParseUser.logOut();
+                    ParseUser currentUser = ParseUser.getCurrentUser();
 
-                Intent intent = new Intent(this, LogInActivity.class);
-                startActivity(intent);
-                finish();
+                    navigationMenu.setVisibility(View.INVISIBLE);
+                    darkNavBackground.setVisibility(View.INVISIBLE);
+
+                    Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
+                    startActivity(intent);
+                } else {
+                    // Manually log user out
+
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putBoolean("loggedIn", false);
+                    editor.commit();
+
+                    Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
+                    startActivity(intent);
+                }
 
                 break;
             case R.id.settings_button_nav:
@@ -245,6 +263,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 navOpen = false;
 
                 Intent intent3 = new Intent(this, MyProfileActivity.class);
+                intent3.putExtra("requestType", "nav");
                 startActivity(intent3);
 
                 break;
@@ -255,25 +274,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
 
+        PointSystem pointSystem = new PointSystem(this);
+
         if (network.checkNetwork()) {
-//            ParseUser currentUser = ParseUser.getCurrentUser();
-//            if (currentUser != null) {
-////                stopRepeating();
-////                startRepeating();
-//            } else {
-//                Intent intent = new Intent(this, LogInActivity.class);
-//                startActivity(intent);
-//            }
+            ParseUser currentUser = ParseUser.getCurrentUser();
+            if (currentUser != null) {
+                currentUser.fetchInBackground();
+
+                String userPoints = currentUser.getString("Points");
+                if (userPoints != null) {
+                    pointSystem.setPoints(Integer.parseInt(userPoints));
+                }
+
+                navUsername.setText(currentUser.getUsername());
+                navPoints.setText("Score: " + Integer.toString(pointSystem.getPoints()));
+            }
+
+            if (currentUser != null) {
+//                stopRepeating();
+//                startRepeating();
+            } else {
+                Intent intent = new Intent(this, LogInActivity.class);
+                startActivity(intent);
+            }
         } else {
             // No Network, Pull from Local
 
-//            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//
-//            if (prefs.getBoolean("loggedIn", false) == false) {
-//                Intent intent = new Intent(this, LogInActivity.class);
-//                startActivity(intent);
-//            }
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+            if (prefs.getBoolean("loggedIn", false) == false) {
+                Intent intent = new Intent(this, LogInActivity.class);
+                startActivity(intent);
+            }
         }
+
     }
 
     @Override
@@ -303,6 +337,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void simpleSnackBar(String text) {
+        SnackbarManager.show(
+                Snackbar.with(this)
+                        .text(text)
+                        .textColor(Color.rgb(255, 153, 51))
+                        .color(Color.DKGRAY)
+                        .duration(Snackbar.SnackbarDuration.LENGTH_SHORT));
     }
 
 }

@@ -8,6 +8,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.parse.Parse;
+import com.parse.ParseObject;
+
 /**
  * Created by Anatoliy on 8/23/15.
  */
@@ -17,15 +20,13 @@ public class LogInActivity extends FragmentActivity {
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
 
-    Network network = new Network(this);
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen_slide);
 
-//        Parse.initialize(this, "mgZqRjcCPjoyOfCGv8bmwHENpehZYoSsnvgsMUpe",
-//                "u6aZbalHSzB79uxXR2AsQmYaZYcANA2n0rUiaxAv");
+//        Parse.initialize(this, "NmlHibFZqo8D6anM56zLid80ZnHOG4R9LDUEVoNZ",
+//                "Z83VxBJolBG1rvWdZpUbNytqGZNAG3kADGrUlTHm");
 
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());

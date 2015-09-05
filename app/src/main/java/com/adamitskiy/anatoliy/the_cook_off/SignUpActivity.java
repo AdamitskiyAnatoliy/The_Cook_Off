@@ -13,24 +13,25 @@ import android.widget.ScrollView;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.listeners.EventListener;
-//import com.parse.Parse;
-//import com.parse.ParseException;
-//import com.parse.ParseUser;
-//import com.parse.SignUpCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 public class SignUpActivity extends AppCompatActivity {
 
     private static final String TAG = SignUpActivity.class.getSimpleName();
-    EditText username, password, passConfirm;
+    EditText username, password, passConfirm, email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-//        Parse.initialize(this, "mgZqRjcCPjoyOfCGv8bmwHENpehZYoSsnvgsMUpe",
-//                "u6aZbalHSzB79uxXR2AsQmYaZYcANA2n0rUiaxAv");
+//        Parse.initialize(this, "NmlHibFZqo8D6anM56zLid80ZnHOG4R9LDUEVoNZ",
+//                "Z83VxBJolBG1rvWdZpUbNytqGZNAG3kADGrUlTHm");
 
+        email = (EditText) findViewById(R.id.emailTextFieldForm);
         username = (EditText) findViewById(R.id.usernameTextFieldForm);
         password = (EditText) findViewById(R.id.passwordTextFieldForm);
         passConfirm = (EditText) findViewById(R.id.verifyPasswordTextFieldForm);
@@ -52,76 +53,77 @@ public class SignUpActivity extends AppCompatActivity {
                 if (pass1.equals(pass2)) {
 
                     showSnackBar("Checking Username Availability", Snackbar.SnackbarDuration.LENGTH_INDEFINITE);
-//                    ParseUser user = new ParseUser();
-//                    user.setUsername(username.getText().toString());
-//                    user.setPassword(password.getText().toString());
-//                    user.signUpInBackground(new SignUpCallback() {
-//                        public void done(ParseException e) {
-//                            if (e == null) {
-//
-//                                SnackbarManager.show(
-//                                        Snackbar.with(SignUpActivity.this)
-//                                                .text("Sign Up Successful")
-//                                                .color(Color.DKGRAY)
-//                                                .textColor(Color.rgb(255, 153, 51))
-//                                                .duration(Snackbar.SnackbarDuration.LENGTH_SHORT)
-//                                                .eventListener(new EventListener() {
-//                                                    @Override
-//                                                    public void onShow(Snackbar snackbar) {
-//                                                        Log.i(TAG, String.format(
-//                                                                "Snackbar will show. Width: %d Height: %d Offset: %d",
-//                                                                snackbar.getWidth(), snackbar.getHeight(),
-//                                                                snackbar.getOffset()));
-//                                                    }
-//
-//                                                    @Override
-//                                                    public void onShowByReplace(Snackbar snackbar) {
-//                                                        Log.i(TAG, String.format(
-//                                                                "Snackbar will show by replace. Width: %d Height: %d Offset: %d",
-//                                                                snackbar.getWidth(), snackbar.getHeight(),
-//                                                                snackbar.getOffset()));
-//                                                    }
-//
-//                                                    @Override
-//                                                    public void onShown(Snackbar snackbar) {
-//                                                        Log.i(TAG, String.format(
-//                                                                "Snackbar shown. Width: %d Height: %d Offset: %d",
-//                                                                snackbar.getWidth(), snackbar.getHeight(),
-//                                                                snackbar.getOffset()));
-//                                                    }
-//
-//                                                    @Override
-//                                                    public void onDismiss(Snackbar snackbar) {
-//                                                        Log.i(TAG, String.format(
-//                                                                "Snackbar will dismiss. Width: %d Height: %d Offset: %d",
-//                                                                snackbar.getWidth(), snackbar.getHeight(),
-//                                                                snackbar.getOffset()));
-//                                                    }
-//
-//                                                    @Override
-//                                                    public void onDismissByReplace(Snackbar snackbar) {
-//                                                        Log.i(TAG, String.format(
-//                                                                "Snackbar will dismiss by replace. Width: %d Height: %d Offset: %d",
-//                                                                snackbar.getWidth(), snackbar.getHeight(),
-//                                                                snackbar.getOffset()));
-//                                                        SnackbarManager.dismiss();
-//                                                    }
-//
-//                                                    @Override
-//                                                    public void onDismissed(Snackbar snackbar) {
-//
-//                                                        Intent intent = new Intent();
-//                                                        intent.putExtra("username", username.getText().toString());
-//                                                        intent.putExtra("password", username.getText().toString());
-//                                                        setResult(RESULT_OK, intent);
-//                                                        finish();
-//                                                    }
-//                                                }));
-//                            } else {
-//                                showSnackBar("Username Not Available", Snackbar.SnackbarDuration.LENGTH_LONG);
-//                            }
-//                        }
-//                    });
+                    ParseUser user = new ParseUser();
+                    user.setEmail(email.getText().toString());
+                    user.setUsername(username.getText().toString());
+                    user.setPassword(password.getText().toString());
+                    user.put("Points", "0");
+                    user.signUpInBackground(new SignUpCallback() {
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                SnackbarManager.show(
+                                        Snackbar.with(SignUpActivity.this)
+                                                .text("Sign Up Successful")
+                                                .color(Color.DKGRAY)
+                                                .textColor(Color.rgb(255, 153, 51))
+                                                .duration(Snackbar.SnackbarDuration.LENGTH_SHORT)
+                                                .eventListener(new EventListener() {
+                                                    @Override
+                                                    public void onShow(Snackbar snackbar) {
+                                                        Log.i(TAG, String.format(
+                                                                "Snackbar will show. Width: %d Height: %d Offset: %d",
+                                                                snackbar.getWidth(), snackbar.getHeight(),
+                                                                snackbar.getOffset()));
+                                                    }
+
+                                                    @Override
+                                                    public void onShowByReplace(Snackbar snackbar) {
+                                                        Log.i(TAG, String.format(
+                                                                "Snackbar will show by replace. Width: %d Height: %d Offset: %d",
+                                                                snackbar.getWidth(), snackbar.getHeight(),
+                                                                snackbar.getOffset()));
+                                                    }
+
+                                                    @Override
+                                                    public void onShown(Snackbar snackbar) {
+                                                        Log.i(TAG, String.format(
+                                                                "Snackbar shown. Width: %d Height: %d Offset: %d",
+                                                                snackbar.getWidth(), snackbar.getHeight(),
+                                                                snackbar.getOffset()));
+                                                    }
+
+                                                    @Override
+                                                    public void onDismiss(Snackbar snackbar) {
+                                                        Log.i(TAG, String.format(
+                                                                "Snackbar will dismiss. Width: %d Height: %d Offset: %d",
+                                                                snackbar.getWidth(), snackbar.getHeight(),
+                                                                snackbar.getOffset()));
+                                                    }
+
+                                                    @Override
+                                                    public void onDismissByReplace(Snackbar snackbar) {
+                                                        Log.i(TAG, String.format(
+                                                                "Snackbar will dismiss by replace. Width: %d Height: %d Offset: %d",
+                                                                snackbar.getWidth(), snackbar.getHeight(),
+                                                                snackbar.getOffset()));
+                                                        SnackbarManager.dismiss();
+                                                    }
+
+                                                    @Override
+                                                    public void onDismissed(Snackbar snackbar) {
+
+                                                        Intent intent = new Intent();
+                                                        intent.putExtra("username", username.getText().toString());
+                                                        intent.putExtra("password", username.getText().toString());
+                                                        setResult(RESULT_OK, intent);
+                                                        finish();
+                                                    }
+                                                }));
+                            } else {
+                                showSnackBar("Username Not Available", Snackbar.SnackbarDuration.LENGTH_LONG);
+                            }
+                        }
+                    });
 
                 } else {
                     showSnackBar("Passwords Do Not Match", Snackbar.SnackbarDuration.LENGTH_SHORT);

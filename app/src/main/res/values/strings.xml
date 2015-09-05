@@ -6,4 +6,6 @@
     <string name="title_activity_add_new">Add New Entry</string>
     <string name="title_activity_my_profile">Profile</string>
     <string name="title_activity_challenge">New Challenge</string>
+    <string name="title_activity_change_credentials">Information Change</string>
+
 </resources>

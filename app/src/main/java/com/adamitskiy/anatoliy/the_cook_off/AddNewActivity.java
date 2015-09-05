@@ -27,6 +27,8 @@ import android.widget.Toast;
 
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -78,7 +80,22 @@ public class AddNewActivity extends AppCompatActivity {
                     simpleSnackBar("Please Fill Out All Fields");
                 } else {
 
+                    PointSystem pointSystem = new PointSystem(getApplicationContext());
+
                     if (challenge == false) {
+                        ParseUser currentUser = ParseUser.getCurrentUser();
+
+                        int points = Integer.parseInt(currentUser.getString("Points"));
+                        points += 1000;
+
+                        currentUser.put("Points", Integer.toString(points));
+                        currentUser.saveInBackground();
+
+                        ParseObject mainFeedEntry = new ParseObject("Main_Feed_Entry");
+                        mainFeedEntry.put("User", ParseUser.getCurrentUser());
+                        mainFeedEntry.put("Message", currentUser.getUsername() + " has prepared the " + title.getText().toString() + " and earned 1000 points.");
+                        mainFeedEntry.saveInBackground();
+
                         simpleSnackBar("Saving New Entry...");
                         Toast.makeText(getApplicationContext(), "1000 Points Achieved", Toast.LENGTH_LONG).show();
                         finish();
@@ -127,6 +144,19 @@ public class AddNewActivity extends AppCompatActivity {
 //                    });
 
                     } else {
+
+                        ParseUser currentUser = ParseUser.getCurrentUser();
+
+                        int points = Integer.parseInt(currentUser.getString("Points"));
+                        points += 5000;
+
+                        currentUser.put("Points", Integer.toString(points));
+                        currentUser.saveInBackground();
+
+                        ParseObject mainFeedEntry = new ParseObject("Main_Feed_Entry");
+                        mainFeedEntry.put("User", ParseUser.getCurrentUser());
+                        mainFeedEntry.put("Message", currentUser.getUsername() + " has prepared the " + title.getText().toString() + " and earned 5000 points for completing the challenge.");
+                        mainFeedEntry.saveInBackground();
 
                         simpleSnackBar("Saving New Entry...");
                         Toast.makeText(getApplicationContext(), "5000 Points Achieved", Toast.LENGTH_LONG).show();

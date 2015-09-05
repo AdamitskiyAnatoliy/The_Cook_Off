@@ -14,6 +14,14 @@ import android.widget.ListView;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Anatoliy on 8/23/15.
@@ -44,10 +52,6 @@ public class MainFeedFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        mainListView = (ListView) getActivity().findViewById(R.id.main_feed_list);
-        MainListAdapter mainListAdapter = new MainListAdapter(getActivity());
-        mainListView.setAdapter(mainListAdapter);
 
         network = new Network(getActivity());
         final View darkBack = getActivity().findViewById(R.id.blackBackground);
@@ -132,6 +136,30 @@ public class MainFeedFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Main_Feed_Entry");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> markers, ParseException e) {
+                if (e == null) {
+                    // your logic here
+
+                    ArrayList<MainFeedObject> feedObjects = new ArrayList<MainFeedObject>();
+
+                    for (int i = 0; i < markers.size(); i++) {
+
+                        feedObjects.add(i, new MainFeedObject(markers.get(i).getString("Message")));
+
+                    }
+
+                    mainListView = (ListView) getActivity().findViewById(R.id.main_feed_list);
+                    MainListAdapter mainListAdapter = new MainListAdapter(getActivity(), feedObjects);
+                    mainListView.setAdapter(mainListAdapter);
+
+                } else {
+                    // handle Parse Exception here
+                }
+            }
+        });
     }
 
     @Override

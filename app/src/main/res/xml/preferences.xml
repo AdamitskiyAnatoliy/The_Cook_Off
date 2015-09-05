@@ -8,4 +8,19 @@
             android:title="Notifications from application"
             android:summary="Turn off all notifications." />
     </PreferenceCategory>
+    <PreferenceCategory
+        android:title="Acount Information Change">
+        <Preference
+            android:key="email_preference"
+            android:title="Change Email Address"
+            android:summary="Change email associated with the account."/>
+        <Preference
+            android:key="username_preference"
+            android:title="Change Username"
+            android:summary="Change username associated with the account."/>
+        <Preference
+            android:key="password_preference"
+            android:title="Change Password"
+            android:summary="Change password associated with the account."/>
+    </PreferenceCategory>
 </PreferenceScreen>

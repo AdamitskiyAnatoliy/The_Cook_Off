@@ -5,16 +5,47 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import com.google.gson.Gson;
+import com.parse.ParseUser;
 
 public class MyProfileActivity extends AppCompatActivity {
 
+    String requestType = "";
+    String stringUser;
+    ParseUser user;
     ListView profileList;
+    TextView userScoreProfile, profileUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Gson gson = new Gson();
+
+        requestType = getIntent().getStringExtra("requestType");
+        stringUser = getIntent().getStringExtra("User");
+        user = gson.fromJson(stringUser, ParseUser.class);
+
+        if (requestType.equals("nav")) {
+
+            PointSystem pointSystem = new PointSystem(this);
+            ParseUser parseUser = ParseUser.getCurrentUser();
+            profileUsername = (TextView) findViewById(R.id.username_profile);
+            profileUsername.setText(parseUser.getUsername());
+            userScoreProfile = (TextView) findViewById(R.id.user_score_profile);
+            userScoreProfile.setText("Score: " + Integer.toString(pointSystem.getPoints()));
+
+        } else {
+
+            profileUsername = (TextView) findViewById(R.id.username_profile);
+            profileUsername.setText(user.getUsername());
+            userScoreProfile = (TextView) findViewById(R.id.user_score_profile);
+            userScoreProfile.setText("Score: " + user.getString("Points"));
+
+        }
 
         profileList = (ListView) findViewById(R.id.listView_profile);
         ProfileListAdapter profileListAdapter = new ProfileListAdapter(this);
