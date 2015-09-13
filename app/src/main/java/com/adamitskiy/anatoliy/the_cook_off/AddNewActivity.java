@@ -94,6 +94,16 @@ public class AddNewActivity extends AppCompatActivity {
                         ParseObject mainFeedEntry = new ParseObject("Main_Feed_Entry");
                         mainFeedEntry.put("User", ParseUser.getCurrentUser());
                         mainFeedEntry.put("Message", currentUser.getUsername() + " has prepared the " + title.getText().toString() + " and earned 1000 points.");
+                        mainFeedEntry.put("typeOfUser", currentUser.getString("Type"));
+
+                        if (currentUser.getString("Type").equals("Normal")) {
+                            mainFeedEntry.put("avatarFile", currentUser.getParseFile("image"));
+                        } else if (currentUser.getString("Type").equals("Twitter")) {
+                            mainFeedEntry.put("avatarUrl", currentUser.getString("socialAvatarUrl"));
+                        } else if (currentUser.getString("Type").equals("Facebook")) {
+
+                        }
+                        mainFeedEntry.put("userId", currentUser.getObjectId());
                         mainFeedEntry.saveInBackground();
 
                         simpleSnackBar("Saving New Entry...");
@@ -156,6 +166,18 @@ public class AddNewActivity extends AppCompatActivity {
                         ParseObject mainFeedEntry = new ParseObject("Main_Feed_Entry");
                         mainFeedEntry.put("User", ParseUser.getCurrentUser());
                         mainFeedEntry.put("Message", currentUser.getUsername() + " has prepared the " + title.getText().toString() + " and earned 5000 points for completing the challenge.");
+
+                        mainFeedEntry.put("typeOfUser", currentUser.getString("Type"));
+                        mainFeedEntry.put("userId", currentUser.getObjectId());
+
+                        if (currentUser.getString("Type").equals("Normal")) {
+                            mainFeedEntry.put("avatarFile", currentUser.getParseFile("image"));
+                        } else if (currentUser.getString("Type").equals("Twitter")) {
+                            mainFeedEntry.put("avatarUrl", currentUser.getString("socialAvatarUrl"));
+                        } else if (currentUser.getString("Type").equals("Facebook")) {
+
+                        }
+
                         mainFeedEntry.saveInBackground();
 
                         simpleSnackBar("Saving New Entry...");

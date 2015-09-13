@@ -14,10 +14,13 @@ import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.parse.FindCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -81,14 +84,44 @@ public class LeaderboardsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                ParseUser user = users.get(position);
-                Gson gson = new Gson();
-                String json = gson.toJson(user);
+                final ParseUser user = users.get(position);
 
-                Intent intent = new Intent(getActivity(), MyProfileActivity.class);
-                intent.putExtra("User", json);
-                intent.putExtra("requestType", "leaderboard");
-                startActivity(intent);
+                final Intent intent = new Intent(getActivity(), MyProfileActivity.class);
+
+                if (user.getString("Type").equals("Normal")) {
+                    ParseFile userImage = user.getParseFile("image");
+                    userImage.getDataInBackground(new GetDataCallback() {
+                        public void done(byte[] data, ParseException e) {
+                            if (e == null) {
+
+                                //intent.putExtra("avatarByteArray", data);
+
+                                try {
+                                    InternalStorage.writeObject(getActivity(), "leaderboardImage", data);
+                                } catch (IOException e1) {
+                                    e1.printStackTrace();
+                                }
+
+                                intent.putExtra("type", "Normal");
+                                intent.putExtra("requestType", "leaderboard");
+                                intent.putExtra("name", user.getString("username"));
+                                intent.putExtra("score", user.getString("Points"));
+                                intent.putExtra("userId", user.getObjectId());
+                                startActivity(intent);
+                            }
+                        }
+                    });
+                } else if (user.getString("Type").equals("Twitter")) {
+                    intent.putExtra("type", "Twitter");
+                    intent.putExtra("avatarUrl", user.getString("socialAvatarUrl"));
+                    intent.putExtra("requestType", "leaderboard");
+                    intent.putExtra("name", user.getString("username"));
+                    intent.putExtra("score", user.getString("Points"));
+                    intent.putExtra("userId", user.getObjectId());
+                    startActivity(intent);
+                } else if (user.getString("Type").equals("Facebook")) {
+
+                }
             }
         });
     }

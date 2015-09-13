@@ -5,8 +5,9 @@
 
     <ImageView
         android:id="@+id/user_avatar_profile"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="15dp"
         android:src="@mipmap/ic_launcher"
         android:layout_centerHorizontal="true"/>
 
@@ -37,10 +38,13 @@
         android:layout_below="@+id/user_score_profile"
         android:background="#CECECE"/>
 
-    <ListView
-        android:id="@+id/listView_profile"
+    <LinearLayout
+        android:id="@+id/fragment_layout_profile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/greyLine"></ListView>
+        android:layout_below="@id/greyLine"
+        android:orientation="vertical">
+
+    </LinearLayout>
 
 </RelativeLayout>

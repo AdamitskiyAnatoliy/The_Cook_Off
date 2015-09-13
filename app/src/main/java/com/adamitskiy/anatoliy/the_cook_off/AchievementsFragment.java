@@ -9,6 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Anatoliy on 8/23/15.
  */
@@ -36,10 +45,30 @@ public class AchievementsFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        achievementsList = (ListView) getActivity().findViewById(R.id.achievements_list);
-        AchievementsListAdapter achievementsListAdapter = new AchievementsListAdapter(getActivity());
-        achievementsList.setAdapter(achievementsListAdapter);
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Achievement");
+        query.whereEqualTo("userId", ParseUser.getCurrentUser().getObjectId());
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> markers, ParseException e) {
+                if (e == null) {
+                    // your logic here
 
+                    ArrayList<ParseObject> objects = new ArrayList<>();
+
+                    for (int i = 0; i < markers.size(); i++) {
+
+                        objects.add(markers.get(i));
+
+                    }
+
+                    achievementsList = (ListView) getActivity().findViewById(R.id.achievements_list);
+                    AchievementsListAdapter achievementsListAdapter = new AchievementsListAdapter(getActivity(), objects);
+                    achievementsList.setAdapter(achievementsListAdapter);
+
+                } else {
+                    // handle Parse Exception here
+                }
+            }
+        });
     }
 
     @Override

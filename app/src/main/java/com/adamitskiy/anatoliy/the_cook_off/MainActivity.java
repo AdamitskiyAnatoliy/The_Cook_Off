@@ -11,11 +11,20 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,15 +32,39 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidquery.AQuery;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
+import com.parse.GetDataCallback;
 import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseFacebookUtils;
+import com.parse.ParseFile;
+import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.Signature;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -46,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LinearLayout darkNavBackground;
     RelativeLayout navigationMenu;
     Boolean navOpen = false;
+    ImageView userAvatarNav;
 
 
     @Override
@@ -54,8 +88,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         if (network.checkNetwork()) {
-            Parse.initialize(this, "NmlHibFZqo8D6anM56zLid80ZnHOG4R9LDUEVoNZ",
-                    "Z83VxBJolBG1rvWdZpUbNytqGZNAG3kADGrUlTHm");
+//            Parse.initialize(this, "NmlHibFZqo8D6anM56zLid80ZnHOG4R9LDUEVoNZ",
+//                    "Z83VxBJolBG1rvWdZpUbNytqGZNAG3kADGrUlTHm");
         } else {
             simpleSnackBar("Please Reconnect Network");
         }
@@ -72,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         actionBar.setCustomView(actionBarLayout);
         actionBar.setElevation(0);
 
+        userAvatarNav = (ImageView) findViewById(R.id.user_avatar_nav);
         navUsername = (TextView) findViewById(R.id.username_nav);
         navPoints = (TextView) findViewById(R.id.user_score_nav);
         mainFeedNavButton = (Button) findViewById(R.id.main_feed_button_nav);
@@ -277,6 +312,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         PointSystem pointSystem = new PointSystem(this);
 
         if (network.checkNetwork()) {
+
+            if (ParseUser.getCurrentUser() != null) {
+                if (ParseUser.getCurrentUser().getString("Type").equals("Normal")) {
+                    ParseFile image = ParseUser.getCurrentUser().getParseFile("image");
+                    image.getDataInBackground(new GetDataCallback() {
+                        public void done(byte[] data, ParseException e) {
+                            if (e == null) {
+                                userAvatarNav.setImageBitmap(BitmapFactory.decodeByteArray(data,0,data.length) );
+                            } else {
+                                Log.d("Error", "Error Retrieving Avatar Navigation Image");
+                            }
+                        }
+                    });
+                } else if (ParseUser.getCurrentUser().getString("Type").equals("Twitter")) {
+
+                    navUsername.setText(ParseTwitterUtils.getTwitter().getScreenName());
+                    new NavAvatarDownloader(this).execute(ParseTwitterUtils.getTwitter().getScreenName());
+
+                } else if (ParseUser.getCurrentUser().getString("Type").equals("Facebook")) {
+
+
+
+                }
+            }
+
             ParseUser currentUser = ParseUser.getCurrentUser();
             if (currentUser != null) {
                 currentUser.fetchInBackground();
@@ -346,6 +406,64 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .textColor(Color.rgb(255, 153, 51))
                         .color(Color.DKGRAY)
                         .duration(Snackbar.SnackbarDuration.LENGTH_SHORT));
+    }
+
+    class NavAvatarDownloader extends AsyncTask<String, Void, Bitmap> {
+
+        Context mContext;
+
+        public NavAvatarDownloader(Context mContext) {
+            this.mContext = mContext;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+
+            String url = null;
+
+            try {
+
+                HttpClient client = new DefaultHttpClient();
+                HttpGet verifyGet = new HttpGet(
+                        "https://api.twitter.com/1.1/users/show.json?screen_name=" + params[0]);
+                ParseTwitterUtils.getTwitter().signRequest(verifyGet);
+                HttpResponse response = client.execute(verifyGet);
+                InputStream is = response.getEntity().getContent();
+                JSONObject responseJson = new JSONObject(IOUtils.toString(is));
+                url = responseJson.getString("profile_image_url");
+
+                ParseUser user = ParseUser.getCurrentUser();
+                user.put("socialAvatarUrl", url);
+                user.saveInBackground();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                URL url1 = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) url1.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;
+            } catch (IOException e) {
+                // Log exception
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap s) {
+            super.onPostExecute(s);
+
+            userAvatarNav.setImageBitmap(s);
+
+        }
     }
 
 }

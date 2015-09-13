@@ -7,7 +7,7 @@
         android:id="@+id/profile_image_view"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:src="@mipmap/ic_launcher"/>
+        android:src="@mipmap/ic_trophy"/>
 
     <TextView
         android:id="@+id/profile_text"
@@ -16,7 +16,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:textAlignment="center"
-        android:text="LOCKED TROPHY"
+        android:text="LOCKED ACHIEVEMENT"
         android:textSize="20sp"
         android:textStyle="bold"/>
 

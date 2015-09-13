@@ -1,8 +1,9 @@
 package com.adamitskiy.anatoliy.the_cook_off;
 
-import android.app.Activity;
-import android.app.Fragment;
+import android.app.*;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,7 +16,9 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -137,6 +140,43 @@ public class MainFeedFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        if (Integer.parseInt(ParseUser.getCurrentUser().getString("Points")) >= 10000) {
+
+            SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+            boolean defaultValue = sharedPref.getBoolean("Achievement 1", false);
+
+            if (defaultValue == false) {
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putBoolean("Achievement 1", true);
+                editor.commit();
+
+                ParseObject achievement = new ParseObject("Achievement");
+                achievement.put("achieved", true);
+                achievement.put("achievement", "Achieved 10,000 points.");
+                achievement.put("username", ParseUser.getCurrentUser().getUsername());
+                achievement.put("userId", ParseUser.getCurrentUser().getObjectId());
+                achievement.saveInBackground();
+
+
+                Intent intent1 = new Intent(getActivity(), MainActivity.class);
+                PendingIntent pIntent = PendingIntent.getActivity(getActivity(), (int) System.currentTimeMillis(), intent1, 0);
+
+                android.app.Notification n = new android.app.Notification.Builder(getActivity())
+                        .setContentTitle("Achievement Unlocked")
+                        .setContentText("Reached 10,000 points.")
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentIntent(pIntent)
+                        .setAutoCancel(true).build();
+
+
+                NotificationManager notificationManager =
+                        (NotificationManager) getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
+
+                notificationManager.notify(1, n);
+
+            }
+        }
+
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Main_Feed_Entry");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> markers, ParseException e) {
@@ -147,7 +187,20 @@ public class MainFeedFragment extends Fragment {
 
                     for (int i = 0; i < markers.size(); i++) {
 
-                        feedObjects.add(i, new MainFeedObject(markers.get(i).getString("Message")));
+                        String avatarUrl = null;
+                        ParseFile avatarFile = null;
+
+                        if (markers.get(i).getString("typeOfUser").equals("Normal")) {
+                            avatarUrl = null;
+                            avatarFile = markers.get(i).getParseFile("avatarFile");
+                        } else if (markers.get(i).getString("typeOfUser").equals("Twitter")) {
+                            avatarUrl = markers.get(i).getString("avatarUrl");
+                            avatarFile = null;
+                        } else if (markers.get(i).getString("typeOfUser").equals("Facebook")) {
+
+                        }
+
+                        feedObjects.add(i, new MainFeedObject(markers.get(i).getString("Message"), avatarUrl, markers.get(i).getString("typeOfUser"), avatarFile, markers.get(i).getString("userId")));
 
                     }
 
