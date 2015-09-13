@@ -167,11 +167,11 @@ public class SignUpActivity extends AppCompatActivity {
 
                                     SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
                                     SharedPreferences.Editor editor = sharedPref.edit();
-                                    editor.putBoolean("Achievement 1", false);
-                                    editor.putBoolean("Achievement 2", false);
-                                    editor.putBoolean("Achievement 3", false);
-                                    editor.putBoolean("Achievement 4", false);
-                                    editor.putBoolean("Achievement 5", false);
+                                    editor.putBoolean("Achievement 1" + ParseUser.getCurrentUser().getUsername(), false);
+                                    editor.putBoolean("Achievement 2" + ParseUser.getCurrentUser().getUsername(), false);
+                                    editor.putBoolean("Achievement 3" + ParseUser.getCurrentUser().getUsername(), false);
+                                    editor.putBoolean("Achievement 4" + ParseUser.getCurrentUser().getUsername(), false);
+                                    editor.putBoolean("Achievement 5" + ParseUser.getCurrentUser().getUsername(), false);
                                     editor.commit();
 
                                 } else {
@@ -209,11 +209,11 @@ public class SignUpActivity extends AppCompatActivity {
 
                             SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPref.edit();
-                            editor.putBoolean("Achievement 1", false);
-                            editor.putBoolean("Achievement 2", false);
-                            editor.putBoolean("Achievement 3", false);
-                            editor.putBoolean("Achievement 4", false);
-                            editor.putBoolean("Achievement 5", false);
+                            editor.putBoolean("Achievement 1" + ParseUser.getCurrentUser().getUsername(), false);
+                            editor.putBoolean("Achievement 2" + ParseUser.getCurrentUser().getUsername(), false);
+                            editor.putBoolean("Achievement 3" + ParseUser.getCurrentUser().getUsername(), false);
+                            editor.putBoolean("Achievement 4" + ParseUser.getCurrentUser().getUsername(), false);
+                            editor.putBoolean("Achievement 5" + ParseUser.getCurrentUser().getUsername(), false);
                             editor.commit();
 
                             TheCookOff.updateParseInstallation(ParseUser.getCurrentUser());

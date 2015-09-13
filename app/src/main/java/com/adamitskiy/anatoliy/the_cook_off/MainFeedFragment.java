@@ -143,7 +143,7 @@ public class MainFeedFragment extends Fragment {
         if (Integer.parseInt(ParseUser.getCurrentUser().getString("Points")) >= 10000) {
 
             SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-            boolean defaultValue = sharedPref.getBoolean("Achievement 1", false);
+            boolean defaultValue = sharedPref.getBoolean("Achievement 1" + ParseUser.getCurrentUser().getUsername(), false);
 
             if (defaultValue == false) {
                 SharedPreferences.Editor editor = sharedPref.edit();
@@ -172,7 +172,7 @@ public class MainFeedFragment extends Fragment {
                 NotificationManager notificationManager =
                         (NotificationManager) getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
 
-                notificationManager.notify(1, n);
+                notificationManager.notify(100, n);
 
             }
         }
