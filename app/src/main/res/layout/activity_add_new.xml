@@ -1,17 +1,22 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#e1e1e1">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="15dp">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             <EditText
             android:layout_width="match_parent"
@@ -19,8 +24,15 @@
             android:hint=" What was prepared?"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
+                android:textSize="16sp"
             android:inputType="textAutoCorrect"
             android:id="@+id/titleTextFieldImage"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
             <EditText
                 android:layout_width="match_parent"
@@ -29,7 +41,14 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
                 android:inputType="textAutoCorrect"
+                android:textSize="16sp"
                 android:id="@+id/timeTextFieldImage"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             <EditText
                 android:layout_width="match_parent"
@@ -39,20 +58,10 @@
                 android:layout_marginTop="15dp"
                 android:inputType="textMultiLine"
                 android:maxLines="100"
-                android:id="@+id/contentTextFieldImage"/>
+                android:textSize="16sp"
+                android:id="@+id/contentTextFieldImage" />
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="15dp"
-                android:text="Get Image"
-                android:textColor="#ffffff"
-                android:textSize="16dp"
-                android:background="@color/DarkPrimaryColor"
-                android:id="@+id/takeImageButton"/>
+            </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
 
@@ -61,9 +70,22 @@
             android:layout_height="250dp"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
+            android:layout_above="@+id/takeImageButton"
             android:scaleType="fitCenter"
             android:id="@+id/foodImage"/>
 
-    </LinearLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:text="Get Image"
+            android:textColor="#ffffff"
+            android:textSize="16dp"
+            android:background="@color/DarkPrimaryColor"
+            android:id="@+id/takeImageButton"
+            android:layout_alignParentBottom="true"/>
 
-</ScrollView>
+    </RelativeLayout>
+
+</LinearLayout>

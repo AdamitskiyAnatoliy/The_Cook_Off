@@ -116,12 +116,12 @@ public class LogInFragment extends Fragment {
             }
         });
 
-        getView().findViewById(R.id.facebookLoginButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showSnackBar("Coming Soon", Snackbar.SnackbarDuration.LENGTH_LONG);
-            }
-        });
+//        getView().findViewById(R.id.facebookLoginButton).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showSnackBar("Coming Soon", Snackbar.SnackbarDuration.LENGTH_LONG);
+//            }
+//        });
 
         getView().findViewById(R.id.signUpButton).setOnClickListener(new View.OnClickListener() {
             @Override

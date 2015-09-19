@@ -89,7 +89,7 @@ public class SignUpActivity extends AppCompatActivity {
                 String pass1 = password.getText().toString();
                 String pass2 = passConfirm.getText().toString();
 
-                if (pass1.equals(pass2)) {
+                if (pass1.equals(pass2) && email.getText().toString().length() != 0 && username.getText().toString().length() !=0 && password.getText().toString().length() !=0 && passConfirm.getText().toString().length() !=0) {
 
                     showSnackBar("Checking Username Availability", Snackbar.SnackbarDuration.LENGTH_INDEFINITE);
                     ParseUser user = new ParseUser();
@@ -177,7 +177,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 } else {
                                     if (e.toString().equals("com.parse.ParseRequest$ParseRequestException: invalid email address")) {
                                         showSnackBar("Invalid Email Address", Snackbar.SnackbarDuration.LENGTH_LONG);
-                                    } else if (e.toString().equals("com.parse.ParseRequest$ParseRequestException: username anato1iy already taken")) {
+                                    } else if (e.toString().equals("com.parse.ParseRequest$ParseRequestException: username " + username.getText().toString() + " already taken")) {
                                         showSnackBar("Username Not Available", Snackbar.SnackbarDuration.LENGTH_LONG);
                                     } else if (e.toString().equals("com.parse.ParseRequest$ParseRequestException: the email address " + email.getText().toString() + " has already been taken")) {
                                         showSnackBar("Email Already Registered", Snackbar.SnackbarDuration.LENGTH_LONG);
@@ -186,9 +186,17 @@ public class SignUpActivity extends AppCompatActivity {
                             }
                         });
                     } else {
-                     showSnackBar("Please Add Avatar Image", Snackbar.SnackbarDuration.LENGTH_LONG);
+                        showSnackBar("Please Add Avatar Image", Snackbar.SnackbarDuration.LENGTH_LONG);
                     }
-                } else {
+                } else if (email.getText().toString().length() == 0) {
+                    showSnackBar("Please Enter Email", Snackbar.SnackbarDuration.LENGTH_SHORT);
+                } else if (username.getText().toString().length() == 0) {
+                    showSnackBar("Please Enter Username", Snackbar.SnackbarDuration.LENGTH_SHORT);
+                } else if (password.getText().toString().length() == 0) {
+                    showSnackBar("Please Enter Password", Snackbar.SnackbarDuration.LENGTH_SHORT);
+                } else if (passConfirm.getText().toString().length() == 0) {
+                    showSnackBar("Please Confirm Password", Snackbar.SnackbarDuration.LENGTH_SHORT);
+                } else if (!pass1.equals(pass2)) {
                     showSnackBar("Passwords Do Not Match", Snackbar.SnackbarDuration.LENGTH_SHORT);
                     password.setText("");
                     passConfirm.setText("");
@@ -236,35 +244,35 @@ public class SignUpActivity extends AppCompatActivity {
 
         final List<String> permissions = Arrays.asList("user_friends", "email", "public_profile");
 
-        findViewById(R.id.signUpFacebookFormButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showSnackBar("Coming Soon", Snackbar.SnackbarDuration.LENGTH_LONG);
-//                ParseFacebookUtils.logInWithReadPermissionsInBackground(SignUpActivity.this, permissions, new LogInCallback() {
-//                    @Override
-//                    public void done(ParseUser user, ParseException err) {
-//                        if (user == null) {
-//                            Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
-//                            showSnackBar("User Cancelled Facebook", Snackbar.SnackbarDuration.LENGTH_LONG);
-//                        } else if (user.isNew()) {
-//                            Log.d("MyApp", "User signed up and logged in through Facebook!");
-//                            showSnackBar("User Signed and Logged", Snackbar.SnackbarDuration.LENGTH_LONG);
-//
-//                            ParseUser parseUser = ParseUser.getCurrentUser();
-//                            parseUser.put("Points", "0");
-//                            parseUser.put("Type", "Facebook");
-//                            parseUser.saveInBackground();
-//                            Intent intent = new Intent();
-//                            setResult(100, intent);
-//                            finish();
-//                        } else {
-//                            Log.d("MyApp", "User logged in through Facebook!");
-//                            showSnackBar("User Logged In", Snackbar.SnackbarDuration.LENGTH_LONG);
-//                        }
-//                    }
-//                });
-            }
-    });
+//        findViewById(R.id.signUpFacebookFormButton).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showSnackBar("Coming Soon", Snackbar.SnackbarDuration.LENGTH_LONG);
+////                ParseFacebookUtils.logInWithReadPermissionsInBackground(SignUpActivity.this, permissions, new LogInCallback() {
+////                    @Override
+////                    public void done(ParseUser user, ParseException err) {
+////                        if (user == null) {
+////                            Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
+////                            showSnackBar("User Cancelled Facebook", Snackbar.SnackbarDuration.LENGTH_LONG);
+////                        } else if (user.isNew()) {
+////                            Log.d("MyApp", "User signed up and logged in through Facebook!");
+////                            showSnackBar("User Signed and Logged", Snackbar.SnackbarDuration.LENGTH_LONG);
+////
+////                            ParseUser parseUser = ParseUser.getCurrentUser();
+////                            parseUser.put("Points", "0");
+////                            parseUser.put("Type", "Facebook");
+////                            parseUser.saveInBackground();
+////                            Intent intent = new Intent();
+////                            setResult(100, intent);
+////                            finish();
+////                        } else {
+////                            Log.d("MyApp", "User logged in through Facebook!");
+////                            showSnackBar("User Logged In", Snackbar.SnackbarDuration.LENGTH_LONG);
+////                        }
+////                    }
+////                });
+//            }
+//    });
 
         ScrollView scrollView = (ScrollView) findViewById(R.id.signUpScroll);
         scrollView.setVerticalScrollBarEnabled(false);

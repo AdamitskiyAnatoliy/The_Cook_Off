@@ -154,6 +154,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        darkNavBackground.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (navOpen) {
+                    navigationMenu.setVisibility(View.INVISIBLE);
+                    darkNavBackground.setVisibility(View.INVISIBLE);
+                    navOpen = false;
+                }
+            }
+        });
+
 
         // Notification upon first log
         //

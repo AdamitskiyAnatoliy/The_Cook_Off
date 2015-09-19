@@ -140,79 +140,82 @@ public class MainFeedFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        if (Integer.parseInt(ParseUser.getCurrentUser().getString("Points")) >= 10000) {
+        if (ParseUser.getCurrentUser() != null) {
+            if (Integer.parseInt(ParseUser.getCurrentUser().getString("Points")) >= 10000) {
 
-            SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-            boolean defaultValue = sharedPref.getBoolean("Achievement 1" + ParseUser.getCurrentUser().getUsername(), false);
+                SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+                boolean defaultValue = sharedPref.getBoolean("Achievement 1" + ParseUser.getCurrentUser().getUsername(), false);
 
-            if (defaultValue == false) {
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putBoolean("Achievement 1", true);
-                editor.commit();
+                if (defaultValue == false) {
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putBoolean("Achievement 1" + ParseUser.getCurrentUser().getUsername(), true);
+                    editor.commit();
 
-                ParseObject achievement = new ParseObject("Achievement");
-                achievement.put("achieved", true);
-                achievement.put("achievement", "Achieved 10,000 points.");
-                achievement.put("username", ParseUser.getCurrentUser().getUsername());
-                achievement.put("userId", ParseUser.getCurrentUser().getObjectId());
-                achievement.saveInBackground();
-
-
-                Intent intent1 = new Intent(getActivity(), MainActivity.class);
-                PendingIntent pIntent = PendingIntent.getActivity(getActivity(), (int) System.currentTimeMillis(), intent1, 0);
-
-                android.app.Notification n = new android.app.Notification.Builder(getActivity())
-                        .setContentTitle("Achievement Unlocked")
-                        .setContentText("Reached 10,000 points.")
-                        .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentIntent(pIntent)
-                        .setAutoCancel(true).build();
+                    ParseObject achievement = new ParseObject("Achievement");
+                    achievement.put("achieved", true);
+                    achievement.put("achievement", "Achieved 10,000 points.");
+                    achievement.put("username", ParseUser.getCurrentUser().getUsername());
+                    achievement.put("userId", ParseUser.getCurrentUser().getObjectId());
+                    achievement.saveInBackground();
 
 
-                NotificationManager notificationManager =
-                        (NotificationManager) getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
+                    Intent intent1 = new Intent(getActivity(), MainActivity.class);
+                    PendingIntent pIntent = PendingIntent.getActivity(getActivity(), (int) System.currentTimeMillis(), intent1, 0);
 
-                notificationManager.notify(100, n);
+                    android.app.Notification n = new android.app.Notification.Builder(getActivity())
+                            .setContentTitle("Achievement Unlocked")
+                            .setContentText("Reached 10,000 points.")
+                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setContentIntent(pIntent)
+                            .setAutoCancel(true).build();
 
+
+                    NotificationManager notificationManager =
+                            (NotificationManager) getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
+
+                    notificationManager.notify(100, n);
+
+                }
             }
-        }
 
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Main_Feed_Entry");
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> markers, ParseException e) {
-                if (e == null) {
-                    // your logic here
 
-                    ArrayList<MainFeedObject> feedObjects = new ArrayList<MainFeedObject>();
+            ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Main_Feed_Entry");
+            query.findInBackground(new FindCallback<ParseObject>() {
+                public void done(List<ParseObject> markers, ParseException e) {
+                    if (e == null) {
+                        // your logic here
 
-                    for (int i = 0; i < markers.size(); i++) {
+                        ArrayList<MainFeedObject> feedObjects = new ArrayList<MainFeedObject>();
 
-                        String avatarUrl = null;
-                        ParseFile avatarFile = null;
+                        for (int i = 0; i < markers.size(); i++) {
 
-                        if (markers.get(i).getString("typeOfUser").equals("Normal")) {
-                            avatarUrl = null;
-                            avatarFile = markers.get(i).getParseFile("avatarFile");
-                        } else if (markers.get(i).getString("typeOfUser").equals("Twitter")) {
-                            avatarUrl = markers.get(i).getString("avatarUrl");
-                            avatarFile = null;
-                        } else if (markers.get(i).getString("typeOfUser").equals("Facebook")) {
+                            String avatarUrl = null;
+                            ParseFile avatarFile = null;
+
+                            if (markers.get(i).getString("typeOfUser").equals("Normal")) {
+                                avatarUrl = null;
+                                avatarFile = markers.get(i).getParseFile("avatarFile");
+                            } else if (markers.get(i).getString("typeOfUser").equals("Twitter")) {
+                                avatarUrl = markers.get(i).getString("avatarUrl");
+                                avatarFile = null;
+                            } else if (markers.get(i).getString("typeOfUser").equals("Facebook")) {
+
+                            }
+
+                            feedObjects.add(i, new MainFeedObject(markers.get(i).getString("Message"), avatarUrl, markers.get(i).getString("typeOfUser"), avatarFile, markers.get(i).getString("userId")));
 
                         }
 
-                        feedObjects.add(i, new MainFeedObject(markers.get(i).getString("Message"), avatarUrl, markers.get(i).getString("typeOfUser"), avatarFile, markers.get(i).getString("userId")));
+                        mainListView = (ListView) getActivity().findViewById(R.id.main_feed_list);
+                        MainListAdapter mainListAdapter = new MainListAdapter(getActivity(), feedObjects);
+                        mainListView.setAdapter(mainListAdapter);
 
+                    } else {
+                        // handle Parse Exception here
                     }
-
-                    mainListView = (ListView) getActivity().findViewById(R.id.main_feed_list);
-                    MainListAdapter mainListAdapter = new MainListAdapter(getActivity(), feedObjects);
-                    mainListView.setAdapter(mainListAdapter);
-
-                } else {
-                    // handle Parse Exception here
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override

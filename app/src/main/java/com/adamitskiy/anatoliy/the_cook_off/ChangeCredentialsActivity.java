@@ -25,28 +25,57 @@ public class ChangeCredentialsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
+        setTitle("Change Credentials");
 
-        if (intent.getStringExtra("Type").equals("email")) {
-            setTitle("Change Email Address");
+        final EditText emailField = (EditText) findViewById(R.id.emailChangeTextField);
+        final EditText usernameField = (EditText) findViewById(R.id.usernameChangeTextField);
+        final EditText passwordField = (EditText) findViewById(R.id.passwordChangeTextField);
+        final EditText passwordConfirmField = (EditText) findViewById(R.id.passwordConfirmChangeTextField);
 
-        } else if (intent.getStringExtra("Type").equals("username")) {
-            setTitle("Change Username");
+        emailField.setText(ParseUser.getCurrentUser().getEmail());
+        usernameField.setText(ParseUser.getCurrentUser().getUsername());
 
-        } else if (intent.getStringExtra("Type").equals("password")) {
-            setTitle("Change Password");
-
-        }
-
-        final EditText newField = (EditText) findViewById(R.id.newChangeTextField);
-        final EditText confirmField = (EditText) findViewById(R.id.confirmChangeTextField);
 
         Button updateButton = (Button) findViewById(R.id.updateInfoButton);
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = getIntent();
+                if (passwordField.getText().toString().equals(passwordConfirmField.getText().toString()) && emailField.getText().toString().length() != 0 && usernameField.getText().toString().length() != 0
+                        && passwordField.getText().toString().length() != 0 && passwordConfirmField.getText().toString().length() != 0) {
+                    ParseUser parseUser = ParseUser.getCurrentUser();
+                    parseUser.setEmail(emailField.getText().toString());
+                    parseUser.setUsername(usernameField.getText().toString());
+                    parseUser.setPassword(passwordField.getText().toString());
+                    parseUser.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (null == e) {
+                                // report about success
+                                finish();
+                                Toast.makeText(getApplicationContext(), "Information Updated", Toast.LENGTH_SHORT).show();
+                            } else {
+                                // report about error
+                                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                                Log.i("ERROR", e.toString());
+                            }
+                        }
+                    });
+                } else if (emailField.getText().toString().length() == 0) {
+                    Toast.makeText(getApplicationContext(), "Please enter email address.", Toast.LENGTH_SHORT).show();
+                } else if (usernameField.getText().toString().length() == 0) {
+                    Toast.makeText(getApplicationContext(), "Please enter a username.", Toast.LENGTH_SHORT).show();
+                } else if (passwordField.getText().toString().length() == 0) {
+                    Toast.makeText(getApplicationContext(), "Please enter a password.", Toast.LENGTH_SHORT).show();
+                } else if (passwordConfirmField.getText().toString().length() == 0) {
+                    Toast.makeText(getApplicationContext(), "Please confirm password.", Toast.LENGTH_SHORT).show();
+                } else if (!passwordField.getText().equals(passwordConfirmField.getText())) {
+                    Toast.makeText(getApplicationContext(), "Passwords do not match.", Toast.LENGTH_SHORT).show();
+                    passwordField.setText("");
+                    passwordConfirmField.setText("");
+                }
 
+                /*
                 if (intent.getStringExtra("Type").equals("email")) {
 
                     if (!newField.getText().toString().equals(confirmField.getText().toString())) {
@@ -113,6 +142,7 @@ public class ChangeCredentialsActivity extends AppCompatActivity {
 
                     }
                 }
+                */
 
             }
         });

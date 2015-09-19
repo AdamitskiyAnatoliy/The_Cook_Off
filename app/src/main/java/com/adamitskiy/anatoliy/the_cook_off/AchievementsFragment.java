@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -45,6 +46,8 @@ public class AchievementsFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        achievementsList = (ListView) getActivity().findViewById(R.id.achievements_list);
+
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Achievement");
         query.whereEqualTo("userId", ParseUser.getCurrentUser().getObjectId());
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -55,12 +58,20 @@ public class AchievementsFragment extends Fragment {
                     ArrayList<ParseObject> objects = new ArrayList<>();
 
                     for (int i = 0; i < markers.size(); i++) {
-
                         objects.add(markers.get(i));
-
                     }
 
-                    achievementsList = (ListView) getActivity().findViewById(R.id.achievements_list);
+                    if (objects.size() > 0) {
+                        TextView noneLabel = (TextView) getActivity().findViewById(R.id.noAchievementsLabel);
+                        noneLabel.setText("");
+                        achievementsList.setVisibility(View.VISIBLE);
+                    } else if (objects.size() == 0) {
+                        TextView noneLabel = (TextView) getActivity().findViewById(R.id.noAchievementsLabel);
+                        noneLabel.setText("No Achievements Unlocked");
+                        noneLabel.setAlpha(1.0f);
+                        achievementsList.setVisibility(View.INVISIBLE);
+                    }
+
                     AchievementsListAdapter achievementsListAdapter = new AchievementsListAdapter(getActivity(), objects);
                     achievementsList.setAdapter(achievementsListAdapter);
 

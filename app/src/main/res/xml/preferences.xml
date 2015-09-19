@@ -11,16 +11,8 @@
     <PreferenceCategory
         android:title="Acount Information Change">
         <Preference
-            android:key="email_preference"
-            android:title="Change Email Address"
-            android:summary="Change email associated with the account."/>
-        <Preference
-            android:key="username_preference"
-            android:title="Change Username"
-            android:summary="Change username associated with the account."/>
-        <Preference
-            android:key="password_preference"
-            android:title="Change Password"
-            android:summary="Change password associated with the account."/>
+            android:key="credential_preference"
+            android:title="Change Credentials"
+            android:summary="Change Email / Username / Password."/>
     </PreferenceCategory>
 </PreferenceScreen>

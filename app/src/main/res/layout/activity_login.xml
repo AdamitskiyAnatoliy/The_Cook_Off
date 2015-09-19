@@ -106,22 +106,22 @@
             android:layout_height="40dp"
             android:orientation="horizontal">
 
-            <Button
-                android:layout_width="149dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:text="Facebook"
-                android:textColor="#ffffff"
-                android:textSize="18dp"
-                android:background="#3b5998"
-                android:id="@+id/facebookLoginButton"/>
+            <!--<Button-->
+                <!--android:layout_width="149dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:text="Facebook"-->
+                <!--android:textColor="#ffffff"-->
+                <!--android:textSize="18dp"-->
+                <!--android:background="#3b5998"-->
+                <!--android:id="@+id/facebookLoginButton"/>-->
 
-            <View
-                android:layout_width="2dp"
-                android:layout_height="match_parent" />
+            <!--<View-->
+                <!--android:layout_width="2dp"-->
+                <!--android:layout_height="match_parent" />-->
 
             <Button
-                android:layout_width="149dp"
+                android:layout_width="300dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:text="Twitter"

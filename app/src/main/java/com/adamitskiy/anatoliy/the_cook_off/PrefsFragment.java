@@ -20,7 +20,7 @@ public class PrefsFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
-        CheckBoxPreference notifications = (CheckBoxPreference)getPreferenceManager().findPreference("notification_preference");
+        CheckBoxPreference notifications = (CheckBoxPreference) getPreferenceManager().findPreference("notification_preference");
         notifications.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -47,7 +47,7 @@ public class PrefsFragment extends PreferenceFragment {
             }
         });
 
-        Preference emailButton = (Preference)getPreferenceManager().findPreference("email_preference");
+        Preference emailButton = (Preference) getPreferenceManager().findPreference("credential_preference");
         emailButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -60,31 +60,6 @@ public class PrefsFragment extends PreferenceFragment {
             }
         });
 
-        Preference usernameButton = (Preference)getPreferenceManager().findPreference("username_preference");
-        usernameButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-
-                Intent intent = new Intent(getActivity(), ChangeCredentialsActivity.class);
-                intent.putExtra("Type", "username");
-                startActivity(intent);
-
-                return true;
-            }
-        });
-
-        Preference passwordButton = (Preference)getPreferenceManager().findPreference("password_preference");
-        passwordButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-
-                Intent intent = new Intent(getActivity(), ChangeCredentialsActivity.class);
-                intent.putExtra("Type", "password");
-                startActivity(intent);
-
-                return true;
-            }
-        });
     }
 
 }
