@@ -89,13 +89,12 @@ public class SignUpActivity extends AppCompatActivity {
                 String pass1 = password.getText().toString();
                 String pass2 = passConfirm.getText().toString();
 
-                if (pass1.equals(pass2) && email.getText().toString().length() != 0 && username.getText().toString().length() !=0 && password.getText().toString().length() !=0 && passConfirm.getText().toString().length() !=0) {
+                if (email.getText().toString().length() != 0 && username.getText().toString().length() !=0 && password.getText().toString().length() !=0 && passConfirm.getText().toString().length() !=0) {
 
-                    showSnackBar("Checking Username Availability", Snackbar.SnackbarDuration.LENGTH_INDEFINITE);
                     ParseUser user = new ParseUser();
-                    user.setEmail(email.getText().toString());
-                    user.setUsername(username.getText().toString());
-                    user.setPassword(password.getText().toString());
+                    user.setEmail(email.getText().toString().trim());
+                    user.setUsername(username.getText().toString().trim());
+                    user.setPassword(password.getText().toString().trim());
                     user.put("Points", "0");
                     user.put("Type", "Normal");
                     if (file != null) {
@@ -177,14 +176,18 @@ public class SignUpActivity extends AppCompatActivity {
                                 } else {
                                     if (e.toString().equals("com.parse.ParseRequest$ParseRequestException: invalid email address")) {
                                         showSnackBar("Invalid Email Address", Snackbar.SnackbarDuration.LENGTH_LONG);
-                                    } else if (e.toString().equals("com.parse.ParseRequest$ParseRequestException: username " + username.getText().toString() + " already taken")) {
-                                        showSnackBar("Username Not Available", Snackbar.SnackbarDuration.LENGTH_LONG);
                                     } else if (e.toString().equals("com.parse.ParseRequest$ParseRequestException: the email address " + email.getText().toString() + " has already been taken")) {
                                         showSnackBar("Email Already Registered", Snackbar.SnackbarDuration.LENGTH_LONG);
+                                    } else if (e.toString().equals("com.parse.ParseRequest$ParseRequestException: username " + username.getText().toString() + " already taken")) {
+                                        showSnackBar("Username Not Available", Snackbar.SnackbarDuration.LENGTH_LONG);
                                     }
                                 }
                             }
                         });
+                    } else if (!pass1.equals(pass2)) {
+                        showSnackBar("Passwords Do Not Match", Snackbar.SnackbarDuration.LENGTH_SHORT);
+                        password.setText("");
+                        passConfirm.setText("");
                     } else {
                         showSnackBar("Please Add Avatar Image", Snackbar.SnackbarDuration.LENGTH_LONG);
                     }

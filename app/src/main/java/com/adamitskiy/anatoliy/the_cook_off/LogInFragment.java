@@ -72,8 +72,8 @@ public class LogInFragment extends Fragment {
                     } else if (username.getText().toString().equals("")) {
                         Toast.makeText(getActivity(), "Please Enter Username", Toast.LENGTH_LONG).show();
                     } else {
-                        ParseUser.logInInBackground(username.getText().toString(),
-                                password.getText().toString(), new LogInCallback() {
+                        ParseUser.logInInBackground(username.getText().toString().trim(),
+                                password.getText().toString().trim(), new LogInCallback() {
                                     public void done(ParseUser user, ParseException e) {
                                         if (user != null) {
 
@@ -151,7 +151,7 @@ public class LogInFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         String text = input.getText().toString();
 
-                        ParseUser.requestPasswordResetInBackground(text,
+                        ParseUser.requestPasswordResetInBackground(text.trim(),
                                 new RequestPasswordResetCallback() {
                                     public void done(ParseException e) {
                                         if (e == null) {

@@ -44,9 +44,9 @@ public class ChangeCredentialsActivity extends AppCompatActivity {
                 if (passwordField.getText().toString().equals(passwordConfirmField.getText().toString()) && emailField.getText().toString().length() != 0 && usernameField.getText().toString().length() != 0
                         && passwordField.getText().toString().length() != 0 && passwordConfirmField.getText().toString().length() != 0) {
                     ParseUser parseUser = ParseUser.getCurrentUser();
-                    parseUser.setEmail(emailField.getText().toString());
-                    parseUser.setUsername(usernameField.getText().toString());
-                    parseUser.setPassword(passwordField.getText().toString());
+                    parseUser.setEmail(emailField.getText().toString().trim());
+                    parseUser.setUsername(usernameField.getText().toString().trim());
+                    parseUser.setPassword(passwordField.getText().toString().trim());
                     parseUser.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {

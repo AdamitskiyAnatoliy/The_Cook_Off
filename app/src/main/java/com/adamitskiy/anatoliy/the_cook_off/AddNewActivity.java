@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nispok.snackbar.Snackbar;
@@ -38,7 +39,7 @@ import java.io.OutputStream;
 
 public class AddNewActivity extends AppCompatActivity {
 
-    EditText title, content;
+    EditText title, content, hours;
     ImageView imageView;
     byte[] byteArray;
     boolean challenge = false;
@@ -55,6 +56,7 @@ public class AddNewActivity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.foodImage);
         title = (EditText) findViewById(R.id.titleTextFieldImage);
         content = (EditText) findViewById(R.id.contentTextFieldImage);
+        hours = (EditText) findViewById(R.id.timeTextFieldImage);
 
         Button takePicButton = (Button) findViewById(R.id.takeImageButton);
         takePicButton.setOnClickListener(new View.OnClickListener() {
@@ -75,9 +77,14 @@ public class AddNewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (title.getText().toString().equals("") || content.getText().toString()
-                        .equals("") || imageView.getDrawable() == null) {
-                    simpleSnackBar("Please Fill Out All Fields");
+                if (title.getText().toString().equals("")) {
+                    simpleSnackBar("Please tell us what you prepared.");
+                } else if (hours.getText().toString().equals("")) {
+                    simpleSnackBar("Please let us know how long it took.");
+                } else if (content.getText().toString().equals("")) {
+                    simpleSnackBar("Please add a description.");
+                } else if (imageView.getDrawable() == null) {
+                    simpleSnackBar("Please add an image.");
                 } else {
 
                     PointSystem pointSystem = new PointSystem(getApplicationContext());
