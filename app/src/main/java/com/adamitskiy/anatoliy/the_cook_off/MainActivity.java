@@ -88,8 +88,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         if (network.checkNetwork()) {
-//            Parse.initialize(this, "NmlHibFZqo8D6anM56zLid80ZnHOG4R9LDUEVoNZ",
-//                    "Z83VxBJolBG1rvWdZpUbNytqGZNAG3kADGrUlTHm");
         } else {
             simpleSnackBar("Please Reconnect Network");
         }
@@ -164,27 +162,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
-
-
-        // Notification upon first log
-        //
-        //
-        //
-//        Intent intent1 = new Intent(this, MainActivity.class);
-//        PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent1, 0);
-//
-//        Notification n  = new Notification.Builder(this)
-//                .setContentTitle("Health Champion")
-//                .setContentText("You are making this look easy!!!")
-//                .setSmallIcon(R.mipmap.ic_launcher)
-//                .setContentIntent(pIntent)
-//                .setAutoCancel(true).build();
-//
-//
-//        NotificationManager notificationManager =
-//                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-//
-//        notificationManager.notify(0, n);
     }
 
     @Override

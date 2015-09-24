@@ -132,33 +132,6 @@ public class AddNewActivity extends AppCompatActivity {
                                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
                         notificationManager.notify(0, n);
-//                    ParseObject food = new ParseObject("Food");
-//                    note.put("title", foodTitle.getText().toString());
-//                    note.put("content", foodContent.getText().toString());
-//                    note.put("hours", "0");
-//                    ParseFile file = new ParseFile("image.jpg", byteArray);
-//                    file.saveInBackground();
-//                    note.put("image",file);
-//                    note.put("foodType", "image");
-//                    note.setACL(new ParseACL(ParseUser.getCurrentUser()));
-//                    note.saveInBackground(new SaveCallback() {
-//                        @Override
-//                        public void done(ParseException e) {
-//                            if (e == null) {
-//                                finish();
-//                                Intent intent = new Intent(MainActivity.NEW_POST);
-//                                intent.putExtra("foodType", "image");
-//                                intent.putExtra("completed", "yes");
-//                                sendBroadcast(intent);
-//                            } else {
-//                                finish();
-//                                Intent intent = new Intent(MainActivity.NEW_POST);
-//                                intent.putExtra("foodType", "image");
-//                                intent.putExtra("completed", "no");
-//                                sendBroadcast(intent);
-//                            }
-//                        }
-//                    });
 
                     } else {
 

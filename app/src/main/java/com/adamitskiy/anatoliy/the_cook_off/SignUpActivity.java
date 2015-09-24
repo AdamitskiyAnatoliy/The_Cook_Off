@@ -247,36 +247,6 @@ public class SignUpActivity extends AppCompatActivity {
 
         final List<String> permissions = Arrays.asList("user_friends", "email", "public_profile");
 
-//        findViewById(R.id.signUpFacebookFormButton).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showSnackBar("Coming Soon", Snackbar.SnackbarDuration.LENGTH_LONG);
-////                ParseFacebookUtils.logInWithReadPermissionsInBackground(SignUpActivity.this, permissions, new LogInCallback() {
-////                    @Override
-////                    public void done(ParseUser user, ParseException err) {
-////                        if (user == null) {
-////                            Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
-////                            showSnackBar("User Cancelled Facebook", Snackbar.SnackbarDuration.LENGTH_LONG);
-////                        } else if (user.isNew()) {
-////                            Log.d("MyApp", "User signed up and logged in through Facebook!");
-////                            showSnackBar("User Signed and Logged", Snackbar.SnackbarDuration.LENGTH_LONG);
-////
-////                            ParseUser parseUser = ParseUser.getCurrentUser();
-////                            parseUser.put("Points", "0");
-////                            parseUser.put("Type", "Facebook");
-////                            parseUser.saveInBackground();
-////                            Intent intent = new Intent();
-////                            setResult(100, intent);
-////                            finish();
-////                        } else {
-////                            Log.d("MyApp", "User logged in through Facebook!");
-////                            showSnackBar("User Logged In", Snackbar.SnackbarDuration.LENGTH_LONG);
-////                        }
-////                    }
-////                });
-//            }
-//    });
-
         ScrollView scrollView = (ScrollView) findViewById(R.id.signUpScroll);
         scrollView.setVerticalScrollBarEnabled(false);
         scrollView.setHorizontalScrollBarEnabled(false);

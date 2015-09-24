@@ -125,9 +125,6 @@ public class MyProfileActivity extends AppCompatActivity {
             }
         }
 
-//        profileList = (ListView) findViewById(R.id.listView_profile);
-//        ProfileListAdapter profileListAdapter = new ProfileListAdapter(this);
-//        profileList.setAdapter(profileListAdapter);
         fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         ProfileFeedFragment mainFrag = new ProfileFeedFragment();

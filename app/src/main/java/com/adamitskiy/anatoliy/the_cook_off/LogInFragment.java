@@ -29,11 +29,6 @@ import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 import com.parse.RequestPasswordResetCallback;
 
-//import com.parse.LogInCallback;
-//import com.parse.Parse;
-//import com.parse.ParseException;
-//import com.parse.ParseUser;
-
 public class LogInFragment extends Fragment {
 
     private static final String TAG = LogInFragment.class.getSimpleName();
@@ -52,9 +47,6 @@ public class LogInFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-//        Parse.initialize(getActivity(), "NmlHibFZqo8D6anM56zLid80ZnHOG4R9LDUEVoNZ",
-//                "Z83VxBJolBG1rvWdZpUbNytqGZNAG3kADGrUlTHm");
 
         network = new Network(getActivity());
         username = (EditText) getView().findViewById(R.id.usernameTextField);
@@ -115,13 +107,6 @@ public class LogInFragment extends Fragment {
                 });
             }
         });
-
-//        getView().findViewById(R.id.facebookLoginButton).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showSnackBar("Coming Soon", Snackbar.SnackbarDuration.LENGTH_LONG);
-//            }
-//        });
 
         getView().findViewById(R.id.signUpButton).setOnClickListener(new View.OnClickListener() {
             @Override
